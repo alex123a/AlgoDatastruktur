@@ -14,13 +14,22 @@ def merge(A, p, q, r):
 	R.append(float("inf"))
 	i = 0
 	j = 0
+	# Count is for task 4
+	count = 0
 	for k in range(p, r + 1):
+		# Task 4 start
+		if i < j and L[i] > R[j]:
+			print(count)
+			count += 1
+		# Task 4 end
 		if L[i] <= R[j]:
 			A[k] = L[i]
 			i = i + 1
 		else:
 			A[k] = R[j]
 			j = j + 1
+
+	
 	return A
 
 def mergeSort(A, p, r):
