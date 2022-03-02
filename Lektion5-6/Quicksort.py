@@ -3,7 +3,7 @@ import random
 import math
 
 A = []
-size = 65000
+size = 12000
 
 def fillArray():
 	A.clear()
@@ -11,57 +11,42 @@ def fillArray():
 		number = random.randint(1, 300)
 		A.append(number)
 
-def merge(A, p, q, r):
-	n1 = q - p + 1
-	n2 = r - q
-	L = []
-	R = []
-	for i in range(0, n1):
-		L.append(A[p + i])
-	for j in range(0, n2):
-		R.append(A[q + j + 1])
-	L.append(float("inf"))
-	R.append(float("inf"))
-	i = 0
-	j = 0
-	# Count is for task 4
-	count = 0
-	for k in range(p, r + 1):
-		# Task 4 start
-		if i < j and L[i] > R[j]:
-			# print(count)
-			count += 1
-		# Task 4 end
-		if L[i] <= R[j]:
-			A[k] = L[i]
+def partition(A, p, r):
+	x = A[r]
+	i = p - 1
+	for j in range(p, r):
+		if A[j] <= x:
 			i = i + 1
-		else:
-			A[k] = R[j]
-			j = j + 1
-	return A
+			temp = A[i]
+			A[i] = A[j]
+			A[j] = temp
+	temp2 = A[i + 1]
+	A[i + 1] = A[r]
+	A[r] = temp2
+	return i + 1
 
-def mergeSort(A, p, r):
+
+def quickSort(A, p, r):
 	if p < r:
-		q = (p + r) // 2
-		mergeSort(A, p, q)
-		mergeSort(A, q + 1, r)
-		merge(A, p, q, r)
+		q = partition(A, p, r)
+		quickSort(A, p, q - 1)
+		quickSort(A, q + 1, r)
 
 fillArray()
 startTime1 = time.time()
-mergeSort(A, 0, len(A) - 1)
+quickSort(A, 0, len(A) - 1)
 endTime1 = time.time()
 time1 = endTime1 - startTime1
 
 fillArray()
 startTime2 = time.time()
-mergeSort(A, 0, len(A) - 1)
+quickSort(A, 0, len(A) - 1)
 endTime2 = time.time()
 time2 = endTime2 - startTime2
 
 fillArray()
 startTime3 = time.time()
-mergeSort(A, 0, len(A) - 1)
+quickSort(A, 0, len(A) - 1)
 endTime3 = time.time()
 time3 = endTime3 - startTime3
 
